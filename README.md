@@ -1,8 +1,8 @@
-# AuthenTech-Complete
+# AuthenTech
 
-Live Link -> [AuthenTech](https://authentech-9cd3a.web.app/).
+Live Link -> [AuthenTech]().
 
-Complete Project -> [AuthenTech-Complete](https://github.com/shakilahmedatik/authentech-complete).
+Complete Project -> [AuthenTech-Complete]().
 
 Firebase Doc -> [Firebase](https://firebase.google.com/docs/web/).
 

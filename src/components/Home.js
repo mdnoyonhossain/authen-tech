@@ -1,4 +1,10 @@
+import { useContext } from "react"
+import { Link } from "react-router-dom"
+import { AuthContext } from "../contexts/UserContext"
+
 const Home = () => {
+  const { user } = useContext(AuthContext);
+
   return (
     <section>
       <div className=''>
@@ -11,26 +17,42 @@ const Home = () => {
             using email password. Powered by Firebase.!
           </p>
           <div className='flex flex-wrap justify-center'>
-            <button
-              type='button'
-              className='px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 hover:bg-gray-700 text-gray-50'
-            >
-              Visit Profile
-            </button>
+            {
+              user?.uid ?
+                <>
+                  <Link to="/profile">
+                    <button
+                      type='button'
+                      className='px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 hover:bg-gray-700 text-gray-50'
+                    >
+                      Visit Profile
+                    </button>
+                  </Link>
+                </>
+                :
+                <>
+                  <Link to="/login">
+                    <button
+                      type='button'
+                      className='px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 hover:bg-gray-700 text-gray-50'
+                    >
+                      Login
+                    </button>
+                  </Link>
 
-            <button
-              type='button'
-              className='px-8 py-3 m-2 text-lg font-semibold rounded bg-gray-800 hover:bg-gray-700 text-gray-50'
-            >
-              Login
-            </button>
+                  <Link to="/register">
+                    <button
+                      type='button'
+                      className='px-8 py-3 m-2 text-lg border rounded border-gray-700 text-gray-900'
+                    >
+                      Register
+                    </button>
+                  </Link>
+                </>
+            }
 
-            <button
-              type='button'
-              className='px-8 py-3 m-2 text-lg border rounded border-gray-700 text-gray-900'
-            >
-              Register
-            </button>
+
+
           </div>
         </div>
       </div>

@@ -1,4 +1,44 @@
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import { toast } from "react-toastify";
+import { AuthContext } from "../contexts/UserContext";
+
 const Login = () => {
+  const { userSignIn, forgetPassword } = useContext(AuthContext);
+  const [userEmail, setUserEmail] = useState('');
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location?.state?.from?.pathname || '/';
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(email, password);
+
+    userSignIn(email, password)
+      .then(result => {
+        console.log(result.user);
+        form.reset();
+        toast.success('Login Sucessfull');
+        navigate(from, { replace: true })
+      })
+      .catch(error => {
+        toast.warning(error.message)
+      })
+  }
+
+  const handlePasswordReset = () => {
+    forgetPassword(userEmail)
+      .then(() => {
+        toast.success('Reset Link has been sent, please check your email')
+      })
+      .catch(error => toast.warning(error.message))
+  }
+
   return (
     <div className='flex justify-center items-center pt-8'>
       <div className='flex flex-col max-w-md p-6 rounded-md sm:p-10 bg-gray-100 text-gray-900'>
@@ -9,6 +49,7 @@ const Login = () => {
           </p>
         </div>
         <form
+          onSubmit={handleSubmit}
           noValidate=''
           action=''
           className='space-y-6 ng-untouched ng-pristine ng-valid'
@@ -19,6 +60,7 @@ const Login = () => {
                 Email address
               </label>
               <input
+                onBlur={(event) => setUserEmail(event.target.value)}
                 type='email'
                 name='email'
                 id='email'
@@ -53,7 +95,7 @@ const Login = () => {
           </div>
         </form>
         <div className='space-y-1'>
-          <button className='text-xs hover:underline text-gray-400'>
+          <button onClick={handlePasswordReset} className='text-xs hover:underline text-gray-400'>
             Forgot password?
           </button>
         </div>
@@ -95,9 +137,9 @@ const Login = () => {
         </div>
         <p className='px-6 text-sm text-center text-gray-400'>
           Don't have an account yet?{' '}
-          <a href='#' to='/register' className='hover:underline text-gray-600'>
+          <Link to='/register' to='/register' className='hover:underline text-gray-600'>
             Sign up
-          </a>
+          </Link>
           .
         </p>
       </div>
